@@ -5,15 +5,14 @@ export default class Disk {
         let webdav_class = null;
         switch(driver){
             case 'webdav':
-                webdav_class = require('./disk_driver/webdav.class').default;
-                this.disk = new webdav_class(remote_url, username, password);
-                break;
-            case 'dropbox':
-                webdav_class = require('./disk_driver/webdav.class').default;
-                this.disk = new webdav_class(remote_url, username, password);
-                break;
             default:
-                this.disk = null;
+                webdav_class = require('./disk_driver/webdav.class').default;
+                this.disk = new webdav_class(remote_url, username, password);
+                break;
+            case 'jianguoyun':
+                webdav_class = require('./disk_driver/webdav.class').default;
+                this.disk = new webdav_class(remote_url, username, password);
+                break;
         }
     }
     getStat(remote_file_name, success_handler, error_handler){
@@ -37,8 +36,8 @@ export default class Disk {
 
     static get driver_arr(){
         return {
-            webdav: 'Webdav',
-            dropbox: 'Dropbox',
+            webdav: {name: 'Webdav', remote_url: ''},
+            jianguoyun: {name: '坚果云', remote_url: 'https://dav.jianguoyun.com/dav'},
         };
     }
 }

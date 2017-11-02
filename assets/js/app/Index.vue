@@ -8,7 +8,7 @@
                             {{current_disk_driver.driver_string}} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li v-for="(value, key) in disk_driver_arr"><a v-on:click="changeDiskDriver(key)" href="javascript: void(0);">{{value}}</a></li>
+                            <li v-for="(value, key) in disk_driver_arr"><a v-on:click="changeDiskDriver(key)" href="javascript: void(0);">{{value.name}}</a></li>
                         </ul>
                     </div>
                     <div class="list-group article-list" v-bind:style="style_body">
@@ -39,31 +39,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<modal name="disk-driver-config" v-on:closed="initDirectory">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <input v-model="disk_driver_config.remote_url" type="url" class="form-control" placeholder="Please enter remote url">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <input v-model="disk_driver_config.username" type="text" class="form-control" placeholder="Please enter username">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <input v-model="disk_driver_config.password" type="password" class="form-control" placeholder="Please enter password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <button v-on:click="saveCurrentDiskDriverConfig" class="btn btn-large btn-primary">Login</button>
-                    </div>
-                </div>
-            </form>
-        </modal>-->
 
         <v-dialog />
     </div>
@@ -100,7 +75,8 @@
                 disk_driver_arr: window.disk_class.driver_arr,
                 current_disk_driver: {
                     driver: 'webdav',
-                    driver_string: _.get(window.disk_class.driver_arr, 'webdav'),
+                    driver_string: _.get(window.disk_class.driver_arr, 'webdav').name,
+                    remote_url: _.get(window.disk_class.driver_arr, 'webdav').remote_url,
                 },
                 disk_driver_config: {
                     remote_url: '',
@@ -178,7 +154,8 @@
             changeDiskDriver(driver){
                 this.current_disk_driver = {
                     driver: driver,
-                    driver_string: _.get(this.disk_driver_arr, driver),
+                    driver_string: _.get(this.disk_driver_arr, driver).name,
+                    remote_url: _.get(this.disk_driver_arr, driver).remote_url,
                 };
             },
             saveCurrentDiskDriverConfig(){
@@ -198,6 +175,7 @@
                         this.initDirectory();
                     },
                     (e)=>{
+                        console.log(e);
                         alert('Cannot connect server through this configuration');
                     });
             },
@@ -224,7 +202,7 @@
             testDiskDriver(driver, success_handler, error_handler){
                 let disk_config = this._getDiskDriverConfig(driver);
                 let disk_obj = new window.disk_class(driver, disk_config.remote_url, disk_config.username, disk_config.password);
-                disk_obj.getStat('/idees',
+                disk_obj.getStat('/',
                     (file)=>{
                         success_handler(file);
                     },
@@ -380,12 +358,12 @@
                 if(!disk_driver_store.has('disk.'+new_val.driver)) {
                     //this.$modal.show('disk-driver-config');
                     this.$modal.show('dialog', {
-                        title: 'Add ' + new_val.driver_string + ' Information',
+                        title: 'Add ' + new_val.driver_string + ' Login Information',
                         text: '' +
                         '            <form class="form-horizontal">\n' +
                         '                <div class="form-group">\n' +
                         '                    <div class="col-md-12">\n' +
-                        '                        <input v-model="disk_driver_config.remote_url" type="url" class="J_disk_driver_config_remote_url form-control" placeholder="Please enter remote url">\n' +
+                        '                        <input v-model="disk_driver_config.remote_url" type="url" class="J_disk_driver_config_remote_url form-control" placeholder="Please enter remote url" value="'+new_val.remote_url+'">\n' +
                         '                    </div>\n' +
                         '                </div>\n' +
                         '                <div class="form-group">\n' +

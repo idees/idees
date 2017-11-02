@@ -9,6 +9,7 @@ before_script:
   - npm i -g npm@5.5.1
   - npm install
 script:
+  - npm run production
   - npm run package-mac
   - npm run package-linux
   - npm run package-win

@@ -4,3 +4,5 @@ release-builds/*
 .idea
 public/*
 /mix-manifest.json
+fonts
+images

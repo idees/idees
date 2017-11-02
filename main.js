@@ -16,6 +16,17 @@ let mainWindow;
 // menu
 const template = [
     {
+        label: 'File',
+        submenu: [
+            {
+                label: 'New (CMD + N)',
+            },
+            {
+                label: 'Save (CMD + S)',
+            },
+        ]
+    },
+    {
         label: 'Edit',
         submenu: [
             {role: 'undo'},
@@ -56,7 +67,7 @@ const template = [
             {
                 label: 'Learn More',
                 click() {
-                    require('electron').shell.openExternal('https://electron.atom.io')
+                    require('electron').shell.openExternal('https://github.com/idees/idees')
                 }
             }
         ]
