@@ -1,0 +1,30 @@
+language: node_js
+sudo: required
+node_js:
+  - '8'
+branches:
+  only:
+  - master
+before_script:
+  - npm i -g npm@5.5.1
+  - npm install
+script:
+  - npm run package-mac
+  - npm run package-linux
+  - npm run package-win
+  - cd release-builds
+  - tar -czvf 'mac-osx.tar.gz' 'Idees-darwin-x64'
+  - tar -czvf 'linux-x64.tar.gz' 'idees-linux-x64'
+  - tar -czvf 'win32.tar.gz' 'idees-win32-ia32'
+deploy:
+  provider: releases
+  api_key:
+    secure: null
+  file:
+    - 'release-builds/mac-osx.tar.gz'
+    - 'release-builds/linux-x64.tar.gz'
+    - 'release-builds/win32.tar.gz'
+  skip_cleanup: true
+  on:
+    repo: idees/idees
+    branch: master

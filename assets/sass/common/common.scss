@@ -1,0 +1,9 @@
+body {
+  width: 100%;
+  height: 768px;
+  overflow: hidden;
+}
+
+input, button, a, .CodeMirror-lines, .CodeMirror-vscrollbar, .markdown-preview {
+  -webkit-app-region: no-drag;
+}

@@ -1,0 +1,6 @@
+node_modules
+release-builds/*
+.DS_Store
+.idea
+public/*
+/mix-manifest.json
