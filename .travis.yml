@@ -17,6 +17,7 @@ script:
   - tar -czvf 'mac-osx.tar.gz' 'Idees-darwin-x64'
   - tar -czvf 'linux-x64.tar.gz' 'idees-linux-x64'
   #- tar -czvf 'win32.tar.gz' 'idees-win32-ia32'
+  - cd ..
 deploy:
   provider: releases
   api_key:
