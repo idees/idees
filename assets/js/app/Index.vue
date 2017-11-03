@@ -74,9 +74,9 @@
 
                 disk_driver_arr: window.disk_class.driver_arr,
                 current_disk_driver: {
-                    driver: 'webdav',
-                    driver_string: _.get(window.disk_class.driver_arr, 'webdav').name,
-                    remote_url: _.get(window.disk_class.driver_arr, 'webdav').remote_url,
+                    driver: 'jianguoyun',
+                    driver_string: _.get(window.disk_class.driver_arr, 'jianguoyun').name,
+                    remote_url: _.get(window.disk_class.driver_arr, 'jianguoyun').remote_url,
                 },
                 disk_driver_config: {
                     remote_url: '',

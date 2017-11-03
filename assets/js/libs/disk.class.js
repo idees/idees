@@ -5,11 +5,10 @@ export default class Disk {
         let webdav_class = null;
         switch(driver){
             case 'webdav':
-            default:
-                webdav_class = require('./disk_driver/webdav.class').default;
-                this.disk = new webdav_class(remote_url, username, password);
-                break;
             case 'jianguoyun':
+            case 'owncloud':
+            case 'nextcloud':
+            default:
                 webdav_class = require('./disk_driver/webdav.class').default;
                 this.disk = new webdav_class(remote_url, username, password);
                 break;
@@ -36,8 +35,10 @@ export default class Disk {
 
     static get driver_arr(){
         return {
-            webdav: {name: 'Webdav', remote_url: ''},
             jianguoyun: {name: '坚果云', remote_url: 'https://dav.jianguoyun.com/dav'},
+            owncloud: {name: 'Owncloud', remote_url: ''},
+            nextcloud: {name: 'Nextcloud', remote_url: ''},
+            webdav: {name: 'Webdav', remote_url: ''},
         };
     }
 }
