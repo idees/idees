@@ -3,6 +3,10 @@ A markdown editor which support several cloud file storage backends.
 
 ---
 
+![idees](_images/idees.png)  
+
+---
+
 @[TOC]
 
 ## 0x01 What is Idees?
