@@ -1,0 +1,67 @@
+#index {
+  .main-container {
+    padding: 0;
+
+    .main-body {
+      border-bottom: 1px solid #eee;
+
+      .title-btn {
+        float: right;
+      }
+
+      .body-left {
+        padding-right: 0;
+        .article-list {
+          overflow-y: scroll;
+          margin: 0;
+          clear: both;
+
+          .list-group-item {
+            display: block;
+            height: 65px;
+            overflow: hidden;
+
+            p {
+              font-size: 12px;
+              overflow: hidden;
+              height: 30px;
+            }
+          }
+        }
+      }
+
+      .body-center {
+        padding: 0;
+
+        .CodeMirror-lines {
+          padding: 40px 30px;
+        }
+      }
+
+      .body-right {
+        padding: 0 15px;
+        .markdown-preview {
+          overflow-y: scroll;
+        }
+      }
+    }
+
+    .footer {
+      //position: absolute;
+      bottom: 0;
+      height: 20px;
+      padding: 0 5px;
+
+      .footer-left {
+        padding: 5px 5px 5px 15px;
+        border-right: 1px solid #eee;
+        input {
+          height: 20px;
+        }
+      }
+      .foot-right {
+
+      }
+    }
+  }
+}

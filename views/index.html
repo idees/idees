@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Idees</title>
+
+    <link href="../public/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../public/css/app.css" rel="stylesheet" />
+</head>
+<body style="-webkit-app-region: drag">
+<div id="app">
+    <app></app>
+</div>
+</body>
+
+
+<script>
+    let ipcRenderer = require('electron').ipcRenderer;
+
+    const Store = require('electron-store');
+    const config_store = new Store({
+        name: 'config',
+    });
+    const disk_driver_store = new Store({
+        name: 'disk_driver',
+    });
+</script>
+<script type="text/javascript" src="../public/js/app.js"></script>
+<script>
+</script>
+</html>
