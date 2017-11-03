@@ -17,6 +17,7 @@
 <script>
     let ipcRenderer = require('electron').ipcRenderer;
 
+    const Fs = require('fs');
     const Store = require('electron-store');
     const config_store = new Store({
         name: 'config',
