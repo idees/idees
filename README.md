@@ -44,4 +44,10 @@ It can catch your idées directly.
 ![save content](_images/2F77B550C0D542F23B49375DB54CC6F2.jpg)  
 ![select content](_images/5B903DC8A8ACA59C74D29935A6E55ADB.jpg)  
 
+---  
 
+## Article quotes
+> * Accessing [Nextcloud](https://github.com/nextcloud/server) Files Using WebDAV
+> [https://docs.nextcloud.com/server/9/user_manual/files/access_webdav.html](https://docs.nextcloud.com/server/9/user_manual/files/access_webdav.html)
+> * Accessing [Owncloud](https://github.com/owncloud/core) Files Using WebDAV  
+> [https://doc.owncloud.org/server/latest/user_manual/files/access_webdav.html](https://doc.owncloud.org/server/latest/user_manual/files/access_webdav.html)

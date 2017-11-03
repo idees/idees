@@ -30,3 +30,4 @@ deploy:
   on:
     repo: idees/idees
     branch: master
+    tags: true
