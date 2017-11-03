@@ -5,9 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-mac": "electron-packager . Idees --overwrite --asar --platform=darwin --arch=x64 --icon=public/icons/mac/icon.icns --prune=true --out=release-builds --ignore=\"release-builds|assets|.idea|.*.md|.*.yml\"",
-    "package-win": "electron-packager . idees --overwrite --asar --platform=win32 --arch=ia32 --icon=public/icons/win/icon.ico --prune=true --out=release-builds --ignore=\"release-builds|assets|.idea|.*.md|.*.yml\" --version-string.CompanyName=\"HeadFile Studio\" --version-string.FileDescription=\"A markdown editor which support several file storage backends.\" --version-string.ProductName=\"idees\"",
-    "package-linux": "electron-packager . idees --overwrite --asar --platform=linux --arch=x64 --icon=public/icons/png/1024x1024.png --prune=true --out=release-builds --ignore=\"release-builds|assets|.idea|.*.md|.*.yml\"",
+    "package-mac": "electron-packager . Idees --overwrite --asar --platform=darwin --arch=x64 --icon=public/icons/mac/icon.icns --prune=true --out=release-builds --ignore=\"release-builds|_images|assets|.idea|.*.md|.*.yml\"",
+    "package-win": "electron-packager . idees --overwrite --asar --platform=win32 --arch=ia32 --icon=public/icons/win/icon.ico --prune=true --out=release-builds --ignore=\"release-builds|_images|assets|.idea|.*.md|.*.yml\" --version-string.CompanyName=\"HeadFile Studio\" --version-string.FileDescription=\"A markdown editor which support several file storage backends.\" --version-string.ProductName=\"idees\"",
+    "package-linux": "electron-packager . idees --overwrite --asar --platform=linux --arch=x64 --icon=public/icons/png/1024x1024.png --prune=true --out=release-builds --ignore=\"release-builds|_images|assets|.idea|.*.md|.*.yml\"",
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
