@@ -12,19 +12,19 @@ script:
   - npm run production
   - npm run package-mac
   - npm run package-linux
-  - npm run package-win
+  #- npm run package-win
   - cd release-builds
   - tar -czvf 'mac-osx.tar.gz' 'Idees-darwin-x64'
   - tar -czvf 'linux-x64.tar.gz' 'idees-linux-x64'
-  - tar -czvf 'win32.tar.gz' 'idees-win32-ia32'
+  #- tar -czvf 'win32.tar.gz' 'idees-win32-ia32'
 deploy:
   provider: releases
   api_key:
-    secure: null
+    secure: PkW9NrqzBsjbtTbI0YkVn4/Ni1pDCHDisEKjxeYhjTm5VF3nY7JXTP6lVUH45H40CtcXSgF+ar0Ob4prMYfXJxtMgv3wdnvaSn/SRIdnWkY2w5WXW75ys3rlRwan9G6jpysYayxnPWYjFootHNdoxVhkQzQOnzMFYocT0gJkbCdcbHWGLx1irqOBa9enicqjjBDV2mBo+NHjlHXnMOhTO9+x7oe0uQFC/DWtlwGMc5xj+1n/4SA+pWmr8JQfuFGOdyVgaKYY+BdLSGzkUK6pQqmGwPmYpHPSNnNggRWXXacI10miDfAigrA9rfWdjL2yDpjOu0I/eNDElMjSbhj8x/EvEDY5Ptqi+lZz5rE5fioApiG6FQoZiqQHTP7/T0JLBSqGUVwf+TYD/IaCVh8JMBkgpi9ujM9Dqopz9nhxNFEaiano8chC9/1+rO/9TfyKtu41brAYDZZMM0DxLkS5STNYwAECQi7HVW5DQCxxKzz14MhBGuU4XsACH+qUxcUtvywlQH0OdDWhvw6oAg+P5mmpPy/GHkmZsaTiVPatZQwpbV4R5P+x706ArLauWcxaOL/cye6X0fjWyLlvJbyE722gyRwR1uLgYeW2e+RSIcPzgrpCijwkzNHdeExprwGR7z+k1xP2B05UA/6HlBa5SRBvXsA8yEVYTgtY649fbto=
   file:
     - 'release-builds/mac-osx.tar.gz'
     - 'release-builds/linux-x64.tar.gz'
-    - 'release-builds/win32.tar.gz'
+    #- 'release-builds/win32.tar.gz'
   skip_cleanup: true
   on:
     repo: idees/idees
