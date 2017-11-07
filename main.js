@@ -43,6 +43,12 @@ const template = [
     {
         label: 'View',
         submenu: [
+            {
+                label: 'Toggle Left (CMD + E)',
+            },
+            {
+                label: 'Toggle Right (CMD + R)',
+            },
             {role: 'reload'},
             {role: 'forcereload'},
             {role: 'toggledevtools'},

@@ -130,10 +130,14 @@ window.VUE_CHANNEL = {
         SAVE_CONTENT: 'code_mirror::save_content',
         CHANGE_CONTENT: 'code_mirror::change_content',
         CONTENT_CHANGED: 'code_mirror::content_changed',
+
+        TOGGLE_LEFT: 'code_mirror::toggle_left',
+        TOGGLE_RIGHT: 'code_mirror::toggle_right',
     }
 };
 
 window.CONFIG = {
+    DEFAULT_PATH: '/idees',
     DEFAULT_ARTICLE: '# idees\n' +
     'A markdown editor which support several cloud file storage backends.\n' +
     '\n' +

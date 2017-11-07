@@ -29,6 +29,12 @@
                 this.code_mirror_obj.addKeyMap({"Cmd-N": ()=>{
                     this.event_hub_obj.$emit(window.VUE_CHANNEL.CODE_MIRROR.NEW_CONTENT);
                 }});
+                this.code_mirror_obj.addKeyMap({"Cmd-E": ()=>{
+                    this.event_hub_obj.$emit(window.VUE_CHANNEL.CODE_MIRROR.TOGGLE_LEFT);
+                }});
+                this.code_mirror_obj.addKeyMap({"Cmd-R": ()=>{
+                    this.event_hub_obj.$emit(window.VUE_CHANNEL.CODE_MIRROR.TOGGLE_RIGHT);
+                }});
             });
 
         },
