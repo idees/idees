@@ -53,6 +53,13 @@
 
             window.mousetrap.bind('command+s', this.emitSaveArticle);
             this.event_hub_obj.$on(window.VUE_CHANNEL.CODE_MIRROR.SAVE_CONTENT, this.saveArticle);
+
+            window.mousetrap.bind('command+e', this.toggleLeft);
+            this.event_hub_obj.$on(window.VUE_CHANNEL.CODE_MIRROR.TOGGLE_LEFT, this.toggleLeft);
+
+            window.mousetrap.bind('command+r', this.toggleRight);
+            this.event_hub_obj.$on(window.VUE_CHANNEL.CODE_MIRROR.TOGGLE_RIGHT, this.toggleRight);
+
         },
         mounted() {
             this.$nextTick(function() {
@@ -66,6 +73,7 @@
                     $('.CodeMirror, .markdown-preview').css({height: _.toString(window.innerHeight-30)+'px'});
                 });
 
+                this.newArticle();
             });
         },
         data() {
@@ -97,6 +105,24 @@
                 },
                 is_search: false,
                 article_search_text: '',
+
+                const_body_side_class: {
+                    left: {
+                        xs: 3,
+                        md: 3,
+                        lg: 2,
+                    },
+                    center: {
+                        xs: 4,
+                        md: 4,
+                        lg: 5,
+                    },
+                    right: {
+                        xs: 5,
+                        md: 5,
+                        lg: 5,
+                    },
+                },
             }
         },
 		methods: {
@@ -149,6 +175,67 @@
                     return false;
                 }
                 return true;
+            },
+
+            toggleLeft(){
+                let body_side_class = _.toPlainObject(this.const_body_side_class);
+
+                let left = $('.body-left').is(':visible');
+                let center = $('.body-center').is(':visible');
+                let right = $('.body-right').is(':visible');
+
+                if(!left){
+                    body_side_class.left = {
+                        xs: 0,
+                        md: 0,
+                        lg: 0,
+                    };
+                    $('.body-left').show();
+                }else{
+                    console.log(body_side_class.left);
+                    $('.body-left').hide();
+                }
+                if(right){
+                    body_side_class.right = {
+                        xs: 0,
+                        md: 0,
+                        lg: 0,
+                    };
+                }
+
+                //_left = left;
+                //_right = !right;
+
+                $('.body-center').attr('class', 'col-xs-'+String(body_side_class.left.xs+body_side_class.center.xs+body_side_class.right.xs)+' col-md-'+String(body_side_class.left.md+body_side_class.center.md+body_side_class.right.md)+' col-lg-'+String(body_side_class.left.lg+body_side_class.center.lg+body_side_class.right.lg)+' body-center');
+
+            },
+            toggleRight(){
+                let body_side_class = _.toPlainObject(this.const_body_side_class);
+
+                let left = $('.body-left').is(':visible');
+                let center = $('.body-center').is(':visible');
+                let right = $('.body-right').is(':visible');
+
+                if(!right){
+                    body_side_class.right = {
+                        xs: 0,
+                        md: 0,
+                        lg: 0,
+                    };
+                    $('.body-right').show();
+                }else{
+                    console.log(body_side_class.right);
+                    $('.body-right').hide();
+                }
+                if(left){
+                    body_side_class.left = {
+                        xs: 0,
+                        md: 0,
+                        lg: 0,
+                    };
+                }
+                $('.body-center').attr('class', 'col-xs-'+String(body_side_class.left.xs+body_side_class.center.xs+body_side_class.right.xs)+' col-md-'+String(body_side_class.left.md+body_side_class.center.md+body_side_class.right.md)+' col-lg-'+String(body_side_class.left.lg+body_side_class.center.lg+body_side_class.right.lg)+' body-center');
+
             },
 
             changeDiskDriver(driver){
@@ -216,20 +303,20 @@
                 let disk_config_obj = this._getDiskDriverConfig(this.current_disk_driver.driver);
                 this.disk_obj = new window.disk_class(this.current_disk_driver.driver, disk_config_obj.remote_url, disk_config_obj.username, disk_config_obj.password);
 
-                this.disk_obj.getStat('/idees',
+                this.disk_obj.getStat(window.CONFIG.DEFAULT_PATH,
                     (file)=>{
                         //console.log(file);
                         //alert('welcome');
                         this.getArticleList();
                     },
                     (e)=>{
-                        this.disk_obj.createDirectory('/idees',
+                        this.disk_obj.createDirectory(window.CONFIG.DEFAULT_PATH,
                             ()=>{
                                 alert('idees directory init successfully!');
                                 this.getArticleList();
                             },
                             (e)=>{
-                            console.log(e);
+                                console.log(e);
                                 alert('Oops, there\'s something bad happened.');
                             }
                         )
@@ -237,7 +324,7 @@
                 );
 			},
 			getArticleList(){
-				this.disk_obj.getDirectoryContents('/idees',
+				this.disk_obj.getDirectoryContents(window.CONFIG.DEFAULT_PATH,
                     (file_arr)=>{
                         this.article_arr = [];
                         // add files to article arr
@@ -299,10 +386,14 @@
                 this.setCurrentArticle(article);
             },
             newArticle(){
+                let content = '';
+                if(this.article_arr.length <= 0){
+                    content = window.CONFIG.DEFAULT_ARTICLE;
+                }
                 this.setCurrentArticle({
                     filename: null,
                     basename: null,
-                    content: '',
+                    content: content,
                     size: 0,
                     type: 'file',
                     lastmod: _.now(),
@@ -323,7 +414,7 @@
                 if(current_article.filename === null && current_article.basename === null){
                     // new article
                     current_article.basename = this.generateArticleBaseName(current_article.content);
-                    current_article.filename = '/idees' + '/' + current_article.basename + '.md';
+                    current_article.filename = window.CONFIG.DEFAULT_PATH + '/' + current_article.basename + '.md';
                 }
 
                 this.disk_obj.putFileContent(current_article.filename, current_article.content,
@@ -397,6 +488,8 @@
 		beforeDestroy(){
             this.event_hub_obj.$off(window.VUE_CHANNEL.CODE_MIRROR.NEW_CONTENT, this.newArticle);
             this.event_hub_obj.$off(window.VUE_CHANNEL.CODE_MIRROR.SAVE_CONTENT, this.saveArticle);
+            this.event_hub_obj.$off(window.VUE_CHANNEL.CODE_MIRROR.TOGGLE_LEFT, this.toggleLeft);
+            this.event_hub_obj.$off(window.VUE_CHANNEL.CODE_MIRROR.TOGGLE_RIGHT, this.toggleRight);
 		}
 
     }
