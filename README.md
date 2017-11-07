@@ -1,4 +1,5 @@
 # Idees
+[![Build Status](https://travis-ci.org/idees/idees.svg?branch=master)](https://travis-ci.org/idees/idees)  
 A markdown editor which support several cloud file storage backends.
 
 ---
