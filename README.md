@@ -1,4 +1,4 @@
-# idees
+# Idees
 A markdown editor which support several cloud file storage backends.
 
 ---
@@ -28,7 +28,7 @@ It can catch your idées directly.
 
 ## 0x02 Features
 1. Full [Makrdown](https://github.com/topics/markdown) language support
-2. Several cloud file backend: [Webdav](https://en.wikipedia.org/wiki/WebDAV), [Owncloud](https://github.com/owncloud/core), [Nextcloud](https://github.com/nextcloud/server), [坚果云](https://www.jianguoyun.com/), and so on.  
+2. Several cloud file backend: Local, [Webdav](https://en.wikipedia.org/wiki/WebDAV), [Owncloud](https://github.com/owncloud/core), [Nextcloud](https://github.com/nextcloud/server), [坚果云](https://www.jianguoyun.com/), and so on.  
 3. Real time preview
 4. Content searching
 
