@@ -66,6 +66,7 @@
                     $('.CodeMirror, .markdown-preview').css({height: _.toString(window.innerHeight-30)+'px'});
                 });
 
+                this.newArticle();
             });
         },
         data() {
@@ -299,10 +300,14 @@
                 this.setCurrentArticle(article);
             },
             newArticle(){
+                let content = '';
+                if(this.article_arr.length <= 0){
+                    content = window.CONFIG.DEFAULT_ARTICLE;
+                }
                 this.setCurrentArticle({
                     filename: null,
                     basename: null,
-                    content: '',
+                    content: content,
                     size: 0,
                     type: 'file',
                     lastmod: _.now(),
