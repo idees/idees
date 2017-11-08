@@ -15,7 +15,8 @@ mix.js('assets/js/app.js', 'public/js')
     .sass('assets/sass/app.scss', 'public/css');
 
 
-mix.copyDirectory('assets/fonts', 'public/fonts')
+mix.copyDirectory('assets/css', 'public/css')
+    .copyDirectory('assets/fonts', 'public/fonts')
     .copyDirectory('assets/icons', 'public/icons')
     .copyDirectory('assets/img', 'public/img')
     .copyDirectory('assets/svg', 'public/svg');
