@@ -72,6 +72,9 @@
                     this.style_body = {height: _.toString(window.innerHeight-50)+'px'};
                     $('.CodeMirror, .markdown-preview').css({height: _.toString(window.innerHeight-30)+'px'});
                 });
+                ipcRenderer.on('console-log', (event, arg)=>{
+                    window.console.log(arg);
+                });
 
                 this.newArticle();
             });
@@ -246,10 +249,17 @@
                 };
             },
             saveCurrentDiskDriverConfig(){
+                let remote_url = $('.J_disk_driver_config_remote_url').val();
+                let username = null;
+                let password = null;
+                if(this.current_disk_driver.driver != 'local'){
+                    username = $('.J_disk_driver_config_username').val();
+                    password = $('.J_disk_driver_config_password').val();
+                }
                 this.disk_driver_config = {
-                    remote_url: $('.J_disk_driver_config_remote_url').val(),
-                    username: $('.J_disk_driver_config_username').val(),
-                    password: $('.J_disk_driver_config_password').val(),
+                    remote_url: remote_url,
+                    username: username,
+                    password: password,
                 };
 
                 if(String(this.disk_driver_config.remote_url).length <= 0 || String(this.disk_driver_config.username).length <= 0 || String(this.disk_driver_config.password).length <= 0){
@@ -448,15 +458,7 @@
             current_disk_driver(new_val, old_val){
                 if(!disk_driver_store.has('disk.'+new_val.driver)) {
                     //this.$modal.show('disk-driver-config');
-                    this.$modal.show('dialog', {
-                        title: 'Add ' + new_val.driver_string + ' Login Information',
-                        text: '' +
-                        '            <form class="form-horizontal">\n' +
-                        '                <div class="form-group">\n' +
-                        '                    <div class="col-md-12">\n' +
-                        '                        <input v-model="disk_driver_config.remote_url" type="url" class="J_disk_driver_config_remote_url form-control" placeholder="Please enter remote url" value="'+new_val.remote_url+'">\n' +
-                        '                    </div>\n' +
-                        '                </div>\n' +
+                    let user_authentication = '' +
                         '                <div class="form-group">\n' +
                         '                    <div class="col-md-12">\n' +
                         '                        <input v-model="disk_driver_config.username" type="text" class="J_disk_driver_config_username form-control" placeholder="Please enter username">\n' +
@@ -466,7 +468,20 @@
                         '                    <div class="col-md-12">\n' +
                         '                        <input v-model="disk_driver_config.password" type="password" class="J_disk_driver_config_password form-control" placeholder="Please enter password">\n' +
                         '                    </div>\n' +
+                        '                </div>\n';
+                    if(new_val.driver == 'local'){
+                        user_authentication = '';
+                    }
+                    this.$modal.show('dialog', {
+                        title: 'Add ' + new_val.driver_string + ' Login Information',
+                        text: '' +
+                        '            <form class="form-horizontal">\n' +
+                        '                <div class="form-group">\n' +
+                        '                    <div class="col-md-12">\n' +
+                        '                        <input v-model="disk_driver_config.remote_url" type="url" class="J_disk_driver_config_remote_url form-control" placeholder="Please enter remote url" value="'+new_val.remote_url+'">\n' +
+                        '                    </div>\n' +
                         '                </div>\n' +
+                        user_authentication +
                         '            </form>',
                         buttons: [
                             {
