@@ -16,6 +16,7 @@
 
 <script>
     let ipcRenderer = require('electron').ipcRenderer;
+    let remote = require('electron').remote;
 
     const Fs = require('fs');
     const Store = require('electron-store');
@@ -26,7 +27,10 @@
         name: 'disk_driver',
     });
 
-    window.platform = process.platform;
+    ipcRenderer.on('console-log', (event, arg)=>{
+        window.console.log(arg);
+    });
+    window.user_documents_path = remote.getGlobal('user_documents_path');
 
 </script>
 <script type="text/javascript" src="../public/js/app.js"></script>

@@ -2,6 +2,7 @@ const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
 const Menu = electron.Menu;
+const remote = electron.remote;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
@@ -155,6 +156,8 @@ function createWindow() {
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 
+    global.user_documents_path =  app.getPath('documents');
+
 }
 
 // This method will be called when Electron has finished
@@ -177,7 +180,6 @@ app.on('activate', function () {
     if (mainWindow === null) {
         createWindow();
     }
-
 });
 
 

@@ -72,9 +72,6 @@
                     this.style_body = {height: _.toString(window.innerHeight-50)+'px'};
                     $('.CodeMirror, .markdown-preview').css({height: _.toString(window.innerHeight-30)+'px'});
                 });
-                ipcRenderer.on('console-log', (event, arg)=>{
-                    window.console.log(arg);
-                });
 
                 this.newArticle();
             });
