@@ -39,7 +39,7 @@ export default class Disk {
 
     static get driver_arr(){
         return {
-            local: {name: 'Local', remote_url: '~/Documents'},
+            local: {name: 'Local', remote_url: (window.platform == 'win32' || window.platform == 'win64') ? '.' : '~/Documents'},
             jianguoyun: {name: '坚果云', remote_url: 'https://dav.jianguoyun.com/dav'},
             owncloud: {name: 'Owncloud', remote_url: ''},
             nextcloud: {name: 'Nextcloud', remote_url: ''},
