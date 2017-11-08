@@ -91,7 +91,6 @@ window.md = require('markdown-it')({
     .use(require('markdown-it-ins'))
     .use(require('markdown-it-toc'));
 
-window.interact = require('interact.js');
 window.mousetrap = require('mousetrap');
 /*
 let token = document.head.querySelector('meta[name="csrf-token"]');
