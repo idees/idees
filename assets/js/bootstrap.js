@@ -130,13 +130,17 @@ window.VUE_CHANNEL = {
         CHANGE_CONTENT: 'code_mirror::change_content',
         CONTENT_CHANGED: 'code_mirror::content_changed',
 
+        FILE_UPLOAD: 'code_mirror::file_upload',
+        FILE_UPLOAD_SUCCEED: 'code_mirror::file_upload_succeed',
+
         TOGGLE_LEFT: 'code_mirror::toggle_left',
         TOGGLE_RIGHT: 'code_mirror::toggle_right',
     }
 };
 
 window.CONFIG = {
-    DEFAULT_PATH: '/idees',
+    DEFAULT_ARTICLE_PATH: '/idees',
+    DEFAULT_FILE_PATH: '/idees/_files',
     DEFAULT_ARTICLE: '# idees\n' +
     'A markdown editor which support several cloud file storage backends.\n' +
     '\n' +

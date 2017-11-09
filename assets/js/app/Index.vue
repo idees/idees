@@ -49,6 +49,7 @@
     export default {
         created(){
             this.event_hub_obj.$on(window.VUE_CHANNEL.CODE_MIRROR.SAVE_CONTENT, this.saveArticle);
+            this.event_hub_obj.$on(window.VUE_CHANNEL.CODE_MIRROR.FILE_UPLOAD, this.fileUpload);
         },
         mounted() {
             this.$nextTick(function() {
@@ -132,7 +133,7 @@
                     return false;
                 }
                 let disk_config_obj = window.helpers.get_disk_driver_config('local', this.encryption_key);
-                return window.helpers.open_folder(window.helpers.combine_filename(disk_config_obj.remote_url, window.CONFIG.DEFAULT_PATH));
+                return window.helpers.open_folder(window.helpers.combine_filename(disk_config_obj.remote_url, window.CONFIG.DEFAULT_ARTICLE_PATH));
             },
             getTimeString(utc_timestamp){
                 return window.helpers.get_time_string(utc_timestamp);
@@ -281,14 +282,15 @@
                 let disk_config_obj = window.helpers.get_disk_driver_config(driver, this.encryption_key);
                 this.disk_obj = new window.disk_class(driver, disk_config_obj.remote_url, disk_config_obj.username, disk_config_obj.password);
 
-                this.disk_obj.getStat(window.CONFIG.DEFAULT_PATH,
+                // article directory
+                this.disk_obj.getStat(window.CONFIG.DEFAULT_ARTICLE_PATH,
                     (file)=>{
                         //console.log(file);
                         //alert('welcome');
                         this.getArticleList();
                     },
                     (e)=>{
-                        this.disk_obj.createDirectory(window.CONFIG.DEFAULT_PATH,
+                        this.disk_obj.createDirectory(window.CONFIG.DEFAULT_ARTICLE_PATH,
                             ()=>{
                                 alert('idees directory init successfully!');
                                 this.getArticleList();
@@ -300,9 +302,27 @@
                         )
                     }
                 );
+                // file directory
+                this.disk_obj.getStat(window.CONFIG.DEFAULT_FILE_PATH,
+                    (file)=>{
+                        //console.log(file);
+                        //alert('welcome');
+                    },
+                    (e)=>{
+                        this.disk_obj.createDirectory(window.CONFIG.DEFAULT_FILE_PATH,
+                            ()=>{
+                                alert('idees file directory init successfully!');
+                            },
+                            (e)=>{
+                                console.log(e);
+                                alert('Oops, there\'s something bad happened.');
+                            }
+                        )
+                    }
+                );
 			},
 			getArticleList(){
-				this.disk_obj.getDirectoryContents(window.CONFIG.DEFAULT_PATH,
+				this.disk_obj.getDirectoryContents(window.CONFIG.DEFAULT_ARTICLE_PATH,
                     (file_arr)=>{
                         this.article_arr = [];
                         // add files to article arr
@@ -392,7 +412,7 @@
                 if(current_article.filename === null && current_article.basename === null){
                     // new article
                     current_article.basename = this.generateArticleBaseName(current_article.content);
-                    current_article.filename = window.CONFIG.DEFAULT_PATH + '/' + current_article.basename + '.md';
+                    current_article.filename = window.CONFIG.DEFAULT_ARTICLE_PATH + '/' + current_article.basename + '.md';
                 }
 
                 this.disk_obj.putFileContent(current_article.filename, current_article.content,
@@ -420,6 +440,46 @@
                     }
                 }
                 return true;
+            },
+
+            generateFileBaseName(name){
+                return _.now() + '___' + name;
+            },
+            fileUpload(file_obj){
+                let basename = this.generateFileBaseName(file_obj.name);
+                let filename = window.CONFIG.DEFAULT_FILE_PATH + '/' + basename;
+                Fs.readFile(file_obj.path, (e, data)=>{
+                    if(e != null){
+                        alert(e);
+                    }else{
+                        let buf = new Buffer(data);
+                        this.disk_obj.putFileContent(filename, buf,
+                            ()=>{
+                                if(window.helpers.is_image(filename)) {
+                                    // image upload
+                                    window.helpers.upload_image_to_third_party_disk(file_obj,
+                                        (file_remote) => {
+                                            alert('Congratulations! image saved successfully!');
+                                            let filename_local = window.helpers.combine_filename(window.helpers.get_disk_driver_config(this.current_disk_driver.driver, this.encryption_key).remote_url, filename);
+                                            let filename_remote = file_remote.filename;
+                                            this.event_hub_obj.$emit(window.VUE_CHANNEL.CODE_MIRROR.FILE_UPLOAD_SUCCEED, basename, filename_local, filename_remote);
+                                        },
+                                        (error) => {
+                                            alert('error, image saved failed');
+                                        }
+                                    );
+                                }else{
+                                    //@todo file upload
+                                    alert('only image upload is supported currently');
+                                }
+
+                            },
+                            (e)=>{
+                                alert('There\'s something bad happened while saving this article.');
+                            }
+                        );
+                    }
+                })
             },
 		},
         watch: {
@@ -469,7 +529,7 @@
             }
         },
 		beforeDestroy(){
-
+            this.event_hub_obj.$off(window.VUE_CHANNEL.CODE_MIRROR.FILE_UPLOAD, this.fileUpload);
 		}
 
     }
