@@ -135,8 +135,7 @@
                 return window.helpers.open_folder(window.helpers.combine_filename(disk_config_obj.remote_url, window.CONFIG.DEFAULT_PATH));
             },
             getTimeString(utc_timestamp){
-                let date = new Date(utc_timestamp);
-                return date.toLocaleString();
+                return window.helpers.get_time_string(utc_timestamp);
             },
 
             inputEncryptionKey(){
@@ -151,7 +150,7 @@
                     }
                 })
                     .then((value)=>{
-                        if(String(value).length <= 0 || !this.encryptionKeyValidation(value)){
+                        if(String(value).length <= 0 || !window.helpers.encryption_key_validation(value)){
                             alert('invalid password');
                             this.inputEncryptionKey();
                             return false;
@@ -162,21 +161,6 @@
                         this.changeDiskDriver(this.current_disk_driver.driver);
                         return true;
                     });
-            },
-            encryptionKeyValidation(encryption_key){
-                const validation_hash = 'de024ef52640e52d82bdb7e6433d37e3';
-                if(!config_store.has('encryption_validate')){
-                    config_store.set('encryption_validate', window.helpers.string_encrypt(validation_hash, encryption_key));
-                    return true;
-                }
-                try {
-                    if (validation_hash != window.helpers.string_decrypt(config_store.get('encryption_validate'), encryption_key)) {
-                        return false;
-                    }
-                }catch(e){
-                    return false;
-                }
-                return true;
             },
 
             toggleLeft(){

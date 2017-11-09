@@ -8,6 +8,22 @@ module.exports = {
         let bytes = CryptoJS.AES.decrypt(cipher_text.toString(), key);
         return bytes.toString(CryptoJS.enc.Utf8);
     },
+
+    encryption_key_validation(encryption_key){
+        const validation_hash = 'de024ef52640e52d82bdb7e6433d37e3';
+        if(!config_store.has('encryption_validate')){
+            config_store.set('encryption_validate', window.helpers.string_encrypt(validation_hash, encryption_key));
+            return true;
+        }
+        try {
+            if (validation_hash != this.string_decrypt(config_store.get('encryption_validate'), encryption_key)) {
+                return false;
+            }
+        }catch(e){
+            return false;
+        }
+        return true;
+    },
     get_disk_driver_config(driver, encryption_key){
         let disk_config_obj = JSON.parse(this.string_decrypt(disk_driver_store.get('disk.'+driver), encryption_key));
         return disk_config_obj;
@@ -26,6 +42,7 @@ module.exports = {
     has_disk_driver(driver){
         return disk_driver_store.has(driver);
     },
+
     combine_filename(folder, filename){
         let basefolder = folder;
         if(!_.endsWith('/', basefolder)){
@@ -39,5 +56,10 @@ module.exports = {
     },
     open_folder(path){
         remote.shell.showItemInFolder(path);
-    }
+    },
+
+    get_time_string(utc_timestamp){
+        let date = new Date(utc_timestamp);
+        return date.toLocaleString();
+    },
 };
