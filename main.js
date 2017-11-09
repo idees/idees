@@ -20,11 +20,26 @@ const template = [
         label: 'File',
         submenu: [
             {
-                label: 'New (CMD + N)',
+                label: 'New',
+                accelerator: 'CmdOrCtrl+N',
+                click: () => {
+                    mainWindow.webContents.send('new-article');
+                }
             },
             {
-                label: 'Save (CMD + S)',
+                label: 'Save',
+                accelerator: 'CmdOrCtrl+S',
+                click: () => {
+                    mainWindow.webContents.send('save-article');
+                }
             },
+            {type: 'separator'},
+            {
+                label: 'Open Local Folder',
+                click: () => {
+                    //mainWindow.
+                }
+            }
         ]
     },
     {
@@ -44,13 +59,7 @@ const template = [
     {
         label: 'View',
         submenu: [
-            {
-                label: 'Toggle Left (CMD + E)',
-            },
-            {
-                label: 'Toggle Right (CMD + R)',
-            },
-            {role: 'reload'},
+            /*{role: 'reload'},*/
             {role: 'forcereload'},
             {role: 'toggledevtools'},
             {type: 'separator'},
@@ -80,6 +89,24 @@ const template = [
         ]
     }
 ];
+// View menu
+template[1].submenu.push(
+    {type: 'separator'},
+    {
+        label: 'Toggle Left',
+        accelerator: 'CmdOrCtrl+E',
+        click: () => {
+            mainWindow.webContents.send('toggle-left');
+        }
+    },
+    {
+        label: 'Toggle Right',
+        accelerator: 'CmdOrCtrl+R',
+        click: () => {
+            mainWindow.webContents.send('toggle-right');
+        }
+    }
+);
 if (process.platform === 'darwin') {
     template.unshift({
         label: app.getName(),
@@ -97,7 +124,7 @@ if (process.platform === 'darwin') {
     });
 
     // Edit menu
-    template[1].submenu.push(
+    template[2].submenu.push(
         {type: 'separator'},
         {
             label: 'Speech',
@@ -109,7 +136,7 @@ if (process.platform === 'darwin') {
     );
 
     // Window menu
-    template[3].submenu = [
+    template[4].submenu = [
         {role: 'close'},
         {role: 'minimize'},
         {role: 'zoom'},
@@ -119,12 +146,14 @@ if (process.platform === 'darwin') {
 }
 
 
+
+
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 1024,
         height: 768,
-        frame: false,
+        frame: (process.platform != 'win32' && process.platform != 'win64') ? false : true,
         titleBarStyle: 'hidden',
         icon: path.join(__dirname, 'public/icons/png/64x64.png')
     });
@@ -136,9 +165,9 @@ function createWindow() {
         slashes: true
     }));
 
-
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
+
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
