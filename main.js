@@ -90,7 +90,7 @@ const template = [
     }
 ];
 // View menu
-template[1].submenu.push(
+template[2].submenu.push(
     {type: 'separator'},
     {
         label: 'Toggle Left',
