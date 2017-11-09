@@ -27,6 +27,14 @@
               height: 30px;
             }
           }
+          .list-group-item.active {
+            background-color: $brand-warning;
+            border-color: $brand-warning;
+
+            .list-group-item-text {
+              color: #f2f2f2;
+            }
+          }
         }
       }
 

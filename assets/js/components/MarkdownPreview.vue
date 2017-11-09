@@ -1,5 +1,9 @@
 <template>
-    <div v-bind:id="unique_id" v-html="markdown_html" class="markdown-preview"></div>
+    <div>
+        <button id="copy-html-btn" class="btn btn-xs btn-success">Copy HTML</button>
+
+        <div v-bind:id="unique_id" v-html="markdown_html" class="markdown-preview"></div>
+    </div>
 </template>
 
 <script>

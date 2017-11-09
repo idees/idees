@@ -140,6 +140,7 @@
 
             inputEncryptionKey(){
                 swal({
+                    title: "Security Guard",
                     content: {
                         element: "input",
                         attributes: {
@@ -159,7 +160,11 @@
 
                         // trigger disk driver change
                         this.changeDiskDriver(this.current_disk_driver.driver);
-                        return true;
+
+                        swal({
+                            title: "Passed!",
+                            icon: "success",
+                        });
                     });
             },
 

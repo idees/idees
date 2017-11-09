@@ -1,5 +1,8 @@
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+$brand-warning: #f38f19;
+$brand-success: #6ea76c;
+$white: #fafafa;
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 // dependencies
 @import "~codemirror/lib/codemirror";

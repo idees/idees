@@ -7,3 +7,23 @@ body {
 input, button, a, .CodeMirror-lines, .CodeMirror-vscrollbar, .markdown-preview {
   -webkit-app-region: no-drag;
 }
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: $white;
+  background-color: $brand-warning;
+}
+.swal-content__input:focus,
+.swal-content__textarea:focus {
+  border-color: $brand-success;
+}
+.swal-title {
+  color: $white;
+  background-color: $brand-warning;
+}
+.swal-button {
+  background-color: $brand-success;
+  :active {
+    background-color: $brand-success;
+  }
+}
