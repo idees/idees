@@ -185,7 +185,6 @@
                     };
                     $('.body-left').show();
                 }else{
-                    console.log(body_side_class.left);
                     $('.body-left').hide();
                 }
                 if(right){
@@ -217,7 +216,6 @@
                     };
                     $('.body-right').show();
                 }else{
-                    console.log(body_side_class.right);
                     $('.body-right').hide();
                 }
                 if(left){
