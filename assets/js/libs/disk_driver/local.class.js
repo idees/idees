@@ -20,10 +20,10 @@ export default class Local {
     // relative path to real path
     _compileFilename(filename){
         let basefolder = this.basefolder;
-        if(!_.endsWith('/', basefolder)){
+        if(!_.endsWith(basefolder, '/')){
             basefolder += '/';
         }
-        if(_.startsWith('/', filename)){
+        if(_.startsWith(filename, '/')){
             filename = String(filename).substr(1);
         }
 
@@ -32,10 +32,10 @@ export default class Local {
 
     _combineFilename(folder, filename){
         let basefolder = folder;
-        if(!_.endsWith('/', basefolder)){
+        if(!_.endsWith(basefolder, '/')){
             basefolder += '/';
         }
-        if(_.startsWith('/', filename)){
+        if(_.startsWith(filename, '/')){
             filename = String(filename).substr(1);
         }
 
@@ -88,7 +88,7 @@ export default class Local {
                 let content = buf.toString();
                 success_handler(content);
             }
-        })
+        });
     }
     putFileContent(remote_file_name, content, success_handler, error_handler){
         this.local_file_obj.writeFile(this._compileFilename(remote_file_name), content, (e)=>{
