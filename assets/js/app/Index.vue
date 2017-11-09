@@ -253,39 +253,21 @@
                 if(String(this.disk_driver_config.remote_url).length <= 0 || String(this.disk_driver_config.username).length <= 0 || String(this.disk_driver_config.password).length <= 0){
                     return false;
                 }
-                this._saveDiskDriverConfig(this.current_disk_driver.driver, this.disk_driver_config.remote_url, this.disk_driver_config.username, this.disk_driver_config.password,
+                window.helpers.set_disk_driver_config(this.current_disk_driver.driver, remote_url, username, password, this.encryption_key);
+                this.testDiskDriver(this.current_disk_driver.driver,
                     (file)=>{
                         //this.$modal.hide('disk-driver-config');
                         this.$modal.hide('dialog');
-                        this.initDirectory();
+                        this.initDirectory(this.current_disk_driver.driver);
                     },
                     (e)=>{
+                        window.helpers.delete_disk_driver_config(this.current_disk_driver.driver);
                         console.log(e);
                         alert('Cannot connect server through this configuration');
                     });
             },
-            _saveDiskDriverConfig(driver, remote_url, username, password, success_handler, error_handler){
-                let driver_config_obj = {
-                    remote_url: _.trim(remote_url),
-                    username: _.trim(username),
-                    password: _.trim(password),
-                };
-                disk_driver_store.set('disk.'+driver, window.helpers.string_encrypt(JSON.stringify(driver_config_obj), this.encryption_key));
-                this.testDiskDriver(driver,
-                        (file)=>{
-                            success_handler(file);
-                        },
-                        (e)=>{
-                            disk_driver_store.delete('disk.' + driver);
-                            error_handler(e);
-                        });
-            },
-            _getDiskDriverConfig(driver){
-                let disk_config_obj = JSON.parse(window.helpers.string_decrypt(disk_driver_store.get('disk.'+driver), this.encryption_key));
-                return disk_config_obj;
-            },
             testDiskDriver(driver, success_handler, error_handler){
-                let disk_config = this._getDiskDriverConfig(driver);
+                let disk_config = window.helpers.get_disk_driver_config(driver, this.encryption_key);
                 let disk_obj = new window.disk_class(driver, disk_config.remote_url, disk_config.username, disk_config.password);
                 disk_obj.getStat('/',
                     (file)=>{
@@ -298,8 +280,8 @@
             },
 
 			initDirectory(driver){
-                let disk_config_obj = this._getDiskDriverConfig(this.current_disk_driver.driver);
-                this.disk_obj = new window.disk_class(this.current_disk_driver.driver, disk_config_obj.remote_url, disk_config_obj.username, disk_config_obj.password);
+                let disk_config_obj = window.helpers.get_disk_driver_config(driver, this.encryption_key);
+                this.disk_obj = new window.disk_class(driver, disk_config_obj.remote_url, disk_config_obj.username, disk_config_obj.password);
 
                 this.disk_obj.getStat(window.CONFIG.DEFAULT_PATH,
                     (file)=>{
@@ -444,7 +426,7 @@
 		},
         watch: {
             current_disk_driver(new_val, old_val){
-                if(!disk_driver_store.has('disk.'+new_val.driver)) {
+                if(!window.helpers.has_disk_driver('disk.'+new_val.driver)) {
                     //this.$modal.show('disk-driver-config');
                     let user_authentication = '' +
                         '                <div class="form-group">\n' +
