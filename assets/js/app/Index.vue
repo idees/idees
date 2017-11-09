@@ -65,6 +65,7 @@
                 ipcRenderer.on('save-article', this.emitSaveArticle);
                 ipcRenderer.on('toggle-left', this.toggleLeft);
                 ipcRenderer.on('toggle-right', this.toggleRight);
+                ipcRenderer.on('open-local-folder', this.openLocalFolder);
 
                 this.newArticle();
             });
@@ -124,6 +125,14 @@
                     return 'list-group-item active';
                 }
                 return 'list-group-item';
+            },
+            openLocalFolder(){
+                if(this.encryption_key === null){
+                    alert('password doesn\'t exist');
+                    return false;
+                }
+                let disk_config_obj = window.helpers.get_disk_driver_config('local', this.encryption_key);
+                return window.helpers.open_folder(window.helpers.combine_filename(disk_config_obj.remote_url, window.CONFIG.DEFAULT_PATH));
             },
             getTimeString(utc_timestamp){
                 let date = new Date(utc_timestamp);

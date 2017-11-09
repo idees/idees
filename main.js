@@ -37,7 +37,7 @@ const template = [
             {
                 label: 'Open Local Folder',
                 click: () => {
-                    //mainWindow.
+                    mainWindow.webContents.send('open-local-folder')
                 }
             }
         ]

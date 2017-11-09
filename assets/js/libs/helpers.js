@@ -25,5 +25,19 @@ module.exports = {
     },
     has_disk_driver(driver){
         return disk_driver_store.has(driver);
+    },
+    combine_filename(folder, filename){
+        let basefolder = folder;
+        if(!_.endsWith('/', basefolder)){
+            basefolder += '/';
+        }
+        if(_.startsWith('/', filename)){
+            filename = String(filename).substr(1);
+        }
+
+        return basefolder + filename;
+    },
+    open_folder(path){
+        remote.shell.showItemInFolder(path);
     }
 };
