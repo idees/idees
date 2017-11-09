@@ -15,8 +15,9 @@
 
 
 <script>
-    let ipcRenderer = require('electron').ipcRenderer;
-    let remote = require('electron').remote;
+    const ipcRenderer = require('electron').ipcRenderer;
+    const remote = require('electron').remote;
+    const clipboard = require('electron').clipboard;
 
     const Fs = require('fs');
     const Store = require('electron-store');
